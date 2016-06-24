@@ -110,6 +110,9 @@ if(typeof options.stats === "object" && typeof options.stats.colors === "undefin
 if(argv["lazy"])
 	options.lazy = true;
 
+if(argv["public"])
+	options.public = argv['public'];
+
 if(!argv["info"])
 	options.noInfo = true;
 
@@ -140,7 +143,7 @@ if(argv["compress"])
 var protocol = options.https ? "https" : "http";
 
 if(options.inline) {
-	var devClient = [require.resolve("../client/") + "?" + protocol + "://" + options.host + ":" + options.port];
+	var devClient = [require.resolve("../client/") + "?" + protocol + "://" + (options.public || (options.host + ":" + options.port))];
 
 	if(options.hot)
 		devClient.push("webpack/hot/dev-server");

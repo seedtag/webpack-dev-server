@@ -145,6 +145,9 @@ function processOptions(wpOpt) {
 	if(argv.port !== 8080 || !options.port)
 		options.port = argv.port;
 
+	if(argv.accessiblePort || !options.accessiblePort)
+		options.accessiblePort = argv['accessible-port'];
+
 	if(!options.publicPath) {
 		options.publicPath = firstWpOpt.output && firstWpOpt.output.publicPath || "";
 		if(!/^(https?:)?\/\//.test(options.publicPath) && options.publicPath[0] !== "/")
@@ -238,7 +241,7 @@ function processOptions(wpOpt) {
 	var protocol = options.https ? "https" : "http";
 
 	if(options.inline !== false) {
-		var devClient = [require.resolve("../client/") + "?" + protocol + "://" + (options.public || (options.host + ":" + options.port))];
+		var devClient = [require.resolve("../client/") + "?" + protocol + "://" + (options.public || (options.host + ":" + (options.accessiblePort || options.port)))];
 
 		if(options.hotOnly)
 			devClient.push("webpack/hot/only-dev-server");
